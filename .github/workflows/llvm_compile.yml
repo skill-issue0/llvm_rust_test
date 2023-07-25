@@ -15,7 +15,7 @@ jobs:
 
       - name: Download LLVM Source Code
         run: |
-          wget -O llvm.tar.gz https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-16.0.6.tar.gz
+          wget -O llvm.tar.gz https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-16.0.0.tar.gz
           tar xzf llvm.tar.gz
 
       - name: Build LLVM
@@ -28,7 +28,7 @@ jobs:
 
       - name: Create LLVM Archive
         run: |
-          cd llvm-project-16.0.0/build
+          cd llvm-project-llvmorg-16.0.0/build
           ninja package
 
       - name: Upload LLVM Archive
