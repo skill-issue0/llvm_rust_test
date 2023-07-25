@@ -34,7 +34,7 @@ jobs:
       - name: Create LLVM Archive
         run: |
           cd llvm-project/build
-          cmake --build . --target package
+          cmake --build .
 
       - name: Upload LLVM Archive
         uses: actions/upload-artifact@v2
