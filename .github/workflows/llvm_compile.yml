@@ -21,10 +21,9 @@ jobs:
           
       - name: Build LLVM
         run: |
-          cd llvm-project
-          mkdir build
-          cd build
-          cp ../../CMakeLists.txt .
+          mkdir llvm-project/build
+          cp CMakeLists.txt llvm-project/build
+          cd llvm-project/build
           cmake -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
           ninja
 
