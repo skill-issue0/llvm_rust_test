@@ -23,6 +23,7 @@ jobs:
         run: |
           mkdir llvm-project/build
           cp CMakeLists.txt llvm-project/build
+          cp CMakeLists.txt llvm-project
           cd llvm-project/build
           cmake -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
           ninja
