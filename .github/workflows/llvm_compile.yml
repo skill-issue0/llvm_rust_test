@@ -18,16 +18,13 @@ jobs:
           wget -O llvm.tar.gz https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-16.0.0.tar.gz
           tar xzf llvm.tar.gz
           mv llvm-project-llvmorg-16.0.0 llvm-project
-
-      - name: Copy CMakeLists.txt to build directory
-        run: |
-          cp CMakeLists.txt llvm-project/build/
           
       - name: Build LLVM
         run: |
           cd llvm-project
           mkdir build
           cd build
+          cp CMakeLists.txt .
           cmake -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
           ninja
 
