@@ -1,9 +1,9 @@
 name: LLVM Compilation
 
 on:
-    push:
-      branches:
-        - main
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -15,12 +15,13 @@ jobs:
 
       - name: Download LLVM Source Code
         run: |
-          wget -O llvm.tar.gz https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-16.0.0.tar.gz
+          wget -O llvm.tar.gz https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.0/llvm-project-16.0.0.tar.gz
           tar xzf llvm.tar.gz
+          mv llvm-project-llvmorg-16.0.0 llvm-project
 
       - name: Build LLVM
         run: |
-          cd llvm-project-llvmorg-16.0.0
+          cd llvm-project
           mkdir build
           cd build
           cmake -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
@@ -28,11 +29,11 @@ jobs:
 
       - name: Create LLVM Archive
         run: |
-          cd llvm-project-llvmorg-16.0.0/build
+          cd llvm-project/build
           ninja package
 
       - name: Upload LLVM Archive
         uses: actions/upload-artifact@v2
         with:
           name: llvm-artifacts
-          path: llvm-project-16.0.0/build/llvm-*.tar.gz
+          path: llvm-project/build/llvm-*.tar.gz
