@@ -18,6 +18,9 @@ jobs:
           wget -O llvm.tar.gz https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-16.0.0.tar.gz
           tar xzf llvm.tar.gz
           mv llvm-project-llvmorg-16.0.0 llvm-project
+
+      - name: Install Ninja
+        run: sudo apt-get install ninja-build
           
       - name: Build LLVM
         run: |
@@ -25,8 +28,8 @@ jobs:
           cp CMakeLists.txt llvm-project/build
           cp CMakeLists.txt llvm-project
           cd llvm-project/build
-          cmake -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
-          cmake --build .
+          cmake -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
+          ninja
 
       - name: Create LLVM Archive
         run: |
