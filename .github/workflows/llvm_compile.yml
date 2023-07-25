@@ -34,7 +34,8 @@ jobs:
       - name: Create LLVM Archive
         run: |
           cd llvm-project/build
-          ninja package
+          cmake -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
+          cmake --build . --target package
 
       - name: Upload LLVM Archive
         uses: actions/upload-artifact@v2
