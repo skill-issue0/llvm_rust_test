@@ -31,11 +31,14 @@ jobs:
           cmake -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
           ninja
 
-      - name: Create LLVM Archive
+      - name: Generate LLVM Release Archive
         run: |
           cd llvm-project/build
           cmake -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
-          ninja llvm-tarball
+          ninja llvm-tblgen
+          tar czf llvm-${{ env.LLVM_VERSION }}.tar.gz llvm-tblgen
+          mv llvm-${{ env.LLVM_VERSION }}.tar.gz ../
+
         
 
       - name: Upload LLVM Archive
