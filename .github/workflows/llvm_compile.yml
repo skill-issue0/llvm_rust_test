@@ -15,7 +15,7 @@ jobs:
 
       - name: Download LLVM Source Code
         run: |
-          wget -O llvm.tar.gz https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.0/llvm-project-16.0.0.tar.gz
+          wget -O llvm.tar.gz https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-16.0.0.tar.gz
           tar xzf llvm.tar.gz
           mv llvm-project-llvmorg-16.0.0 llvm-project
 
