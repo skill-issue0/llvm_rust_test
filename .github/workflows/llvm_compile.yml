@@ -19,6 +19,12 @@ jobs:
           tar xzf llvm.tar.gz
           mv llvm-project-llvmorg-16.0.0 llvm-project
 
+      - name: Add CMakeLists.txt to build directory
+        run: |
+          echo 'cmake_minimum_required(VERSION 3.13.4)' > llvm-project/build/CMakeLists.txt
+          echo 'project(MyLLVM)' >> llvm-project/build/CMakeLists.txt
+          echo 'add_subdirectory(llvm)' >> llvm-project/build/CMakeLists.txt
+
       - name: Build LLVM
         run: |
           cd llvm-project
