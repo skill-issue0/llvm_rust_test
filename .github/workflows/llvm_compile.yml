@@ -1,0 +1,37 @@
+name: LLVM Compilation
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Download LLVM Source Code
+        run: |
+          wget -O llvm.tar.gz https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-16.0.6.tar.gz
+          tar xzf llvm.tar.gz
+
+      - name: Build LLVM
+        run: |
+          cd llvm-project-16.0.0
+          mkdir build
+          cd build
+          cmake -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang" -DCMAKE_BUILD_TYPE=Release ..
+          ninja
+
+      - name: Create LLVM Archive
+        run: |
+          cd llvm-project-16.0.0/build
+          ninja package
+
+      - name: Upload LLVM Archive
+        uses: actions/upload-artifact@v2
+        with:
+          name: llvm-artifacts
+          path: llvm-project-16.0.0/build/llvm-*.tar.gz
