@@ -1,0 +1,33 @@
+name: LLVM Compliation
+
+on:
+  push:
+    branches:
+      - main
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cache LLVM and Clang
+        uses: actions/cache@v3
+        with:
+          path: |
+            C:/Program Files/LLVM
+            ./llvm
+          key: llvm-16.0.0
+
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1.8.3
+        with:
+          version: "16.0.0"
+          directory: ${{ runner.temp }}/llvm
+
+      - name: Symlink libclang.so (Linux)
+        if: contains(matrix.os, 'ubuntu')
+        run: sudo ln -s libclang-11.so.1 /lib/x86_64-linux-gnu/libclang.so
+        working-directory: ${{ env.LLVM_PATH }}/lib
+      
+      - name: Test
+        run: ls
