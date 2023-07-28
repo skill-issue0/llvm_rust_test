@@ -6,23 +6,23 @@ on:
       - main
   
 jobs:
-  windows-build:
-    runs-on: windows-latest
+  # windows-build:
+  #  runs-on: windows-latest
 
-    steps:
-      - name: Cache LLVM and Clang
-        uses: actions/cache@v3
-        with:
-          path: |
-            C:/Program Files/LLVM
-            ./llvm
-          key: llvm-16.0.0
+  #  steps:
+  #    - name: Cache LLVM and Clang
+  #      uses: actions/cache@v3
+  #      with:
+  #        path: |
+  #          C:/Program Files/LLVM
+  #          ./llvm
+  #        key: llvm-16.0.0
 
-      - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v1.8.3
-        with:
-          version: "16.0.0"
-          directory: ${{ runner.temp }}/llvm
+  #    - name: Install LLVM and Clang
+  #      uses: KyleMayes/install-llvm-action@v1.8.3
+  #      with:
+  #        version: "16.0.0"
+  #        directory: ${{ runner.temp }}/llvm
   
   linux-build:
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
       - name: Install LLVM and Clang
         run: |
           sudo apt update
-          sudo apt install llvm-16-dev
+          sudo apt install llvm-16
           sudo apt install clang
 
       - name: Install Polly
