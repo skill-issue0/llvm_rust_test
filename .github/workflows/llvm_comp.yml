@@ -29,5 +29,5 @@ jobs:
 
       - name: Linking libLLVM.so
         if: contains(matrix.os, 'ubuntu')
-        run: ls
-        working-directory: ${{ env.LLVM_PATH }}/lib
+        run: find /usr/local/lib -name "libLLVM*.so*"
+
