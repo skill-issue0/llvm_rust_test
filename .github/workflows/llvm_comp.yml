@@ -32,6 +32,7 @@ jobs:
         run: sudo apt-get install -y libtinfo5
       
       - name: Test
+        if: matrix.os == 'ubuntu-latest'
         run: ${{ env.LLVM_PATH }}/bin/llvm-config
   
   build-2:
