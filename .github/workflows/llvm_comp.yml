@@ -27,12 +27,9 @@ jobs:
           version: "16.0.0"
           directory: ${{ runner.temp }}/llvm
 
-      - name: Check for bin
-        if: contains(matrix.os, 'ubuntu')
-        run: |
-          ln -s /usr/lib/libncursesw.so.6 /usr/lib/libtinfo.so.5
-          chmod +x ${{ env.LLVM_PATH }}/bin/llvm-config
-          ${{ env.LLVM_PATH }}/bin/llvm-config
+      - name: Install libtinfo5
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get install -y libtinfo5
   
   build-2:
     runs-on: macos-latest
