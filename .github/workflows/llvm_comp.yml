@@ -28,6 +28,7 @@ jobs:
           directory: ${{ runner.temp }}/llvm
 
       - name: Check for bin
+        if: contains(matrix.os, 'ubuntu')
         run: ${{env.LLVM_PATH}}/bin/llvm-config
   
   build-2:
