@@ -6,11 +6,8 @@ on:
       - main
   
 jobs:
-  build:
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+  windows-build:
+    runs-on: windows-latest
 
     steps:
       - name: Cache LLVM and Clang
@@ -26,8 +23,17 @@ jobs:
         with:
           version: "16.0.0"
           directory: ${{ runner.temp }}/llvm
+  
+  linux-build:
+    runs-on: ubuntu-latest
 
-      - name: Linking libLLVM.so
-        if: contains(matrix.os, 'ubuntu')
-        run: find /usr/local/lib -name "libLLVM*.so*"
+    steps:
+      - name: Install LLVM and Clang
+        run: |
+          sudo apt update
+          sudo apt install llvm-16-dev
+          sudo apt install clang
 
+      - name: Install Polly
+        run:
+          sudo apt install libpolly-16-dev
