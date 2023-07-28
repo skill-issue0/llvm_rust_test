@@ -26,13 +26,15 @@ jobs:
         with:
           version: "16.0.0"
           directory: ${{ runner.temp }}/llvm
+
+      - name: Check for bin
+        run: ${{env.LLVM_PATH}}/bin/llvm-config
   
   build-2:
     runs-on: macos-latest
-    
+
     steps:
       - name: Install LLVM (Homebrew)
-        if: matrix.llvm-version == '16'
         run: |
-            brew install llvm@${{ matrix.llvm-version }}
-            echo /usr/local/opt/llvm@${{ matrix.llvm-version }}/bin >> $GITHUB_PATH
+            brew install llvm@16
+            echo /usr/local/opt/llvm@16/bin >> $GITHUB_PATH
