@@ -6,33 +6,33 @@ on:
       - main
   
 jobs:
-  # windows-build:
-  #  runs-on: windows-latest
-
-  #  steps:
-  #    - name: Cache LLVM and Clang
-  #      uses: actions/cache@v3
-  #      with:
-  #        path: |
-  #          C:/Program Files/LLVM
-  #          ./llvm
-  #        key: llvm-16.0.0
-
-  #    - name: Install LLVM and Clang
-  #      uses: KyleMayes/install-llvm-action@v1.8.3
-  #      with:
-  #        version: "16.0.0"
-  #        directory: ${{ runner.temp }}/llvm
-  
-  linux-build:
-    runs-on: ubuntu-latest
+  build-1:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
 
     steps:
-      - name: Install LLVM and Clang
-        run: |
-          sudo apt update
-          apt search llvm
+      - name: Cache LLVM and Clang
+        uses: actions/cache@v3
+        with:
+          path: |
+            C:/Program Files/LLVM
+            ./llvm
+          key: llvm-16.0.0
 
-      - name: Install Polly
-        run:
-          sudo apt install libpolly-16-dev
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1.8.3
+        with:
+          version: "16.0.0"
+          directory: ${{ runner.temp }}/llvm
+  
+  build-2:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Install LLVM (Homebrew)
+        if: matrix.llvm-version == '16'
+        run: |
+            brew install llvm@${{ matrix.llvm-version }}
+            echo /usr/local/opt/llvm@${{ matrix.llvm-version }}/bin >> $GITHUB_PATH
