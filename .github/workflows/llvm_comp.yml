@@ -30,7 +30,8 @@ jobs:
       - name: Check for bin
         if: contains(matrix.os, 'ubuntu')
         run: |
-          ls ${{ env.LLVM_PATH }}/bin
+          chmod +x ${{ env.LLVM_PATH }}/bin/llvm-config
+          ./${{ env.LLVM_PATH }}/bin/llvm-config
   
   build-2:
     runs-on: macos-latest
