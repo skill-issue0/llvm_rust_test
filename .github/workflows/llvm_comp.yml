@@ -30,6 +30,7 @@ jobs:
       - name: Check for bin
         if: contains(matrix.os, 'ubuntu')
         run: |
+          ln -s /usr/lib/libncursesw.so.6 /usr/lib/libtinfo.so.5
           chmod +x ${{ env.LLVM_PATH }}/bin/llvm-config
           ${{ env.LLVM_PATH }}/bin/llvm-config
   
