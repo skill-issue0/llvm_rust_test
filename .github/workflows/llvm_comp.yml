@@ -33,7 +33,7 @@ jobs:
       
       - name: Test
         if: matrix.os == 'ubuntu-latest'
-        run: ${{ env.LLVM_PATH }}/bin/llvm-config
+        run: ${{ env.LLVM_PATH }}/bin/llvm-config --libdir
   
   build-2:
     runs-on: macos-latest
