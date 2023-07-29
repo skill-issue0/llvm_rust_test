@@ -1,0 +1,17 @@
+name: Ubuntu Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Install deps
+              run: |
+                sudo apt update
+                sudo apt-get install -y llvm-16
+                sudo apt-get install -y clang
