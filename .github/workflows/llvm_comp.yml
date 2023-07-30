@@ -49,7 +49,7 @@ jobs:
 
       - name: Win Test
         if: matrix.os == 'windows-latest'
-        run: ${{ env.LLVM_PATH }}/bin/llvm-config
+        run: ls ${{ env.LLVM_PATH }}/bin
 
       - run: cargo fmt --check
       - run: cargo build --verbose
