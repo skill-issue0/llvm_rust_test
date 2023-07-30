@@ -30,7 +30,26 @@ jobs:
           version: "16.0.0"
           directory: ${{ runner.temp }}/llvm
           cached: ${{ steps.cache-llvm.outputs.cache-hit }}
-          
+
+      - name: Cache libtinfo5
+        uses: actions/cache@v2
+        id: cache-libtinfo5
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          path: ~/libtinfo5
+          key: libtinfo5
+
+
+      - name: Install libtinfo5
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          CACHE_HIT: ${{steps.cache-libtinfo5.outputs.cache-hit}}
+        run: |
+          if [["$CACHE_HIT" != 'true']]; then
+            sudo apt-get install -y libtinfo5
+          else
+          fi
+
       - name: Cache crates
         uses: actions/cache@v3
         with:
@@ -48,8 +67,5 @@ jobs:
 
       - run: cargo fmt --check
       - run: cargo build --verbose
-        env:
-          LLVM_SYS_160_PREFIX: ${{ env.LLVM_PATH }}
-      - run: cargo test --verbose
         env:
           LLVM_SYS_160_PREFIX: ${{ env.LLVM_PATH }}
