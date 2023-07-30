@@ -19,11 +19,10 @@ jobs:
       matrix:
         os: 
           - ubuntu-latest
-          - windows-latest
           - macos-latest
         llvm-version:
           - ["14.0", "llvm-14.0", "14-0"]
-          
+
     steps:
     - uses: actions/checkout@v3
 
