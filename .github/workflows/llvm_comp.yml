@@ -47,7 +47,9 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
 
-      - run: echo ${{ env.LLVM_PATH }}
+      - name: Test
+        run: ls ${{ env.LLVM_PATH }}
+
       - run: cargo fmt --check
       - run: cargo build --verbose
         env:
