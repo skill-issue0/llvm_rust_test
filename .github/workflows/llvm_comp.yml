@@ -48,6 +48,7 @@ jobs:
           if [["$CACHE_HIT" != 'true']]; then
             sudo apt-get install -y libtinfo5
           else
+            echo "Used from cache"
           fi
 
       - name: Cache crates
