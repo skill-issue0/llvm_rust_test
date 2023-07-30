@@ -7,15 +7,3 @@ edition = "2021"
 
 [dependencies]
 llvm-sys = "160"
-
-[build-dependencies]
-# Define conditional dependencies based on the platform
-llvm-sys = { version = "160", path = "/path/to/llvm-artifacts.tar.gz" }
-
-[target.'cfg(windows)'.dependencies]
-# Specify Windows-specific dependencies
-llvm-sys = { version = "160", features = ["windows"] }
-
-[target.'cfg(unix)'.dependencies]
-# Specify Unix-specific dependencies
-llvm-sys = { version = "160", features = ["unix"] }
