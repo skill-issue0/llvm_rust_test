@@ -64,7 +64,7 @@ else
     # run build inside this image
     EXTRA_ARGS=()
     [ -t 1 ] && EXTRA_ARGS+=("-t")
-    docker run --rm -i "${EXTRA_ARGS[@]}" -e DOCKER=1 -v "$(readlink -f .)":/ws "$image" bash -xc "cd /ws && bash build_scripts/build_snowball.sh"
+    docker run --rm -i "${EXTRA_ARGS[@]}" -e DOCKER=1 -v "$(readlink -f .)":/ws "$image" bash -xc "cd /ws && bash build_scripts/build-snowball.sh"
 
     ls
 fi
