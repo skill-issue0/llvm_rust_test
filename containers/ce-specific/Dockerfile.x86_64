@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
-FROM rust:1.67
+FROM rust:1.71.0
 
 ENV ARCH=x86_64 DIST=linux NAME=ce-specific
 

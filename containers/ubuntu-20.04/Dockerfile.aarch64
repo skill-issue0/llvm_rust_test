@@ -1,5 +1,5 @@
 FROM arm64v8/ubuntu:20.04
-FROM rust:1.67
+FROM rust:1.71.0
 
 ENV ARCH=aarch64 DIST=linux NAME=linux
 
