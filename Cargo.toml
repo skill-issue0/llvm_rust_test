@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-llvm_sys = "140"
+llvm-sys = "140"
 inkwell = { version = "0.2.0", default-features = false }
 
 [features]
