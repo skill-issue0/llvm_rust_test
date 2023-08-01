@@ -30,6 +30,9 @@ jobs:
       NAME: '${{ matrix.NAME }}'
 
     steps:
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2.3.0
+
       - name: Checkout code
         uses: actions/checkout@v2
 
