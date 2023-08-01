@@ -1,4 +1,5 @@
 FROM arm64v8/ubuntu:20.04
+FROM rust:1.67
 
 ENV ARCH=aarch64 DIST=linux NAME=linux
 
@@ -16,6 +17,8 @@ RUN apt-get install lsb-release wget software-properties-common gnupg -y
 RUN wget https://apt.llvm.org/llvm.sh
 RUN chmod +x llvm.sh
 RUN sudo ./llvm.sh 14
+
+RUN cargo install --path .
 
 # keep user ID in sync in and outside Docker image
 ARG UID
