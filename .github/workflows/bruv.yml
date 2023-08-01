@@ -1,0 +1,15 @@
+name: Docker Test
+
+on:
+    push
+
+jobs:
+    bruv:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [windows-latest, ubuntu-latest, macos-latest]
+        name: BORZOI
+        steps:
+            - run : docker
+
