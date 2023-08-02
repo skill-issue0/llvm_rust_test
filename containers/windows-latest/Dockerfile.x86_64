@@ -1,0 +1,47 @@
+# escape=`
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+
+ENV ARCH=x86_64 DIST=windows NAME=windows
+
+RUN net user /add llvm-admin
+RUN net localgroup Administrators llvm-admin /add
+USER llvm-admin
+
+SHELL ["cmd", "/S", "/C"]
+
+# Download and install Visual C++ Build Tools
+ADD https://aka.ms/vs/16/release/vs_buildtools.exe C:\TEMP\vs_buildtools.exe
+
+RUN C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --nocache `
+    --installPath C:\BuildTools `
+    --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.ATLMFC --includeRecommended `
+    || IF "%ERRORLEVEL%"=="3010" EXIT 0
+
+ADD https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.0/LLVM-16.0.0-win64.exe C:\TEMP\LLVM-16.0.0-win64.exe
+RUN C:\TEMP\LLVM-16.0.0-win64.exe /S /D=C:\llvm
+
+RUN mkdir C:\Ninja
+
+RUN powershell.exe -Command `
+    $ErrorActionPreference = 'Stop'; `
+    wget https://github.com/ninja-build/ninja/releases/download/v1.10.0/ninja-win.zip -OutFile C:\Ninja\Ninja.zip ; `
+    Expand-Archive C:\Ninja\Ninja.zip C:\Ninja ; `
+    Remove-Item  C:\Ninja\Ninja.zip -Force
+
+# Install GNuWin32 tools via Chocolatey for Lit testing
+RUN powershell -Command `
+	iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+    # Install GNuWin32 tools via Chocolatey for Lit testing
+RUN powershell -Command `
+	iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+RUN choco install -y gnuwin32-coreutils.install
+RUN choco install -y gnuwin
+
+RUN setx path "%path%;C:\Ninja\;C:\Program Files (x86)\GnuWin32\bin"
+
+# This entry point starts the VS developer command prompt and launches the PowerShell shell.
+# We must ensure the architecture is set to 64 bit so the correct linker is used when building the LLVM libraries (We intend to use the 64 bit compiled Libaraies)ENTRYPOINT ["C:\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "-host_arch=amd64", "-arch=amd64", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
+
+CMD ["/c build_scripts\build_llvm.bat C:\llvm C:\llvm-build"]
