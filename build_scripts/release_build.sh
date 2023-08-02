@@ -19,20 +19,11 @@ error() {
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     if [[ "$ARCH" == "arm64" ]]; then
-        brew uninstall --ignore-dependencies zstd
-        brew fetch --force --bottle-tag=arm64_big_sur zstd
-        zstdResult=$(brew --cache --bottle-tag=arm64_big_sur zstd)
-        brew install $zstdResult
-        
-        brew fetch --force --bottle-tag=arm64_big_sur llvm@14
-        llvmResult=$(brew --cache --bottle-tag=arm64_big_sur llvm@14)
-        echo "Looking for arm64 version of (llvm): $llvmResult"
-        brew install $llvmResult
+        brew install llvm@14
 
         echo 'export PATH="/usr/local/opt/llvm@14/bin:$PATH"' >> /Users/runner/.bash_profile
         export LDFLAGS="-L/usr/local/opt/llvm@14/lib"
         export CPPFLAGS="-I/usr/local/opt/llvm@14/include"
-        export LLVM_CONFIG=/usr/bin/llvm-config-14
     else
         brew install llvm@14
     fi
