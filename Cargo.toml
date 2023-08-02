@@ -9,5 +9,5 @@ edition = "2021"
 inkwell = { version = "0.2.0", default-features = false }
 
 [features]
-default = ["llvm14-0"]
-llvm14-0 = ["inkwell/llvm14-0"]
+default = ["llvm16-0"]
+llvm16-0 = ["inkwell/llvm16-0"]

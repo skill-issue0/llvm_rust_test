@@ -15,8 +15,8 @@ RUN apt-get update && apt-get -f install && \
 RUN apt-get install lsb-release wget software-properties-common gnupg -y
 RUN wget https://apt.llvm.org/llvm.sh
 RUN chmod +x llvm.sh
-RUN sudo ./llvm.sh 14
-RUN sudo apt-get install -y libpolly-14-dev
+RUN sudo ./llvm.sh 16
+RUN sudo apt-get install -y libpolly-16-dev
 
 # keep user ID in sync in and outside Docker image
 ARG UID

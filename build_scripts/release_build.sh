@@ -18,18 +18,9 @@ error() {
 }
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    if [[ "$ARCH" == "arm64" ]]; then
-        brew install llvm@14
+    brew install llvm@16
 
-        echo 'export PATH="/usr/local/opt/llvm@14/bin:$PATH"' >> /Users/runner/.bash_profile
-        export LDFLAGS="-L/usr/local/opt/llvm@14/lib"
-        export CPPFLAGS="-I/usr/local/opt/llvm@14/include"
-    else
-        brew install llvm@14
-    fi
-
-    ls /usr/local/opt/llvm@14
-    export LLVM_SYS_140_PREFIX="/usr/local/opt/llvm@14/"
+    export LLVM_SYS_160_PREFIX="/usr/local/opt/llvm@16/"
     bash build_scripts/build-snowball.sh
 else
 
