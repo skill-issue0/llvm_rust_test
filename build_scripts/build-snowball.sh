@@ -17,24 +17,3 @@ if [[ "$NAME" == "ce-specific" ]]; then
 fi
 
 bash build_scripts/release.sh
-mkdir -p ./bin/Release/lib
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    mv libSnowballRuntime.dylib ./bin/Release/lib
-    mv libSnowball.dylib ./bin/Release/lib
-else
-    mv libSnowballRuntime.so ./bin/Release/lib
-    mv libSnowball.so ./bin/Release/lib
-fi
-
-mkdir release
-mkdir -p release/bin
-cp -a ./bin/Release/. release/
-mv release/snowball release/bin/snowball
-
-if [[ "$NAME" == "ce-specific" ]]; then
-    patchelf --set-rpath '$ORIGIN/../lib' release/bin/snowball
-fi
-
-cp -R ./stdlib release/stdlib
-tar -czvf "$label".tar.gz -C release/ .

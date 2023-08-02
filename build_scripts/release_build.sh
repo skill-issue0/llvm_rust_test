@@ -32,7 +32,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
         brew install llvm@14
     fi
 
-    export LLVM_DIR="/usr/local/opt/llvm@14/lib/cmake"
+    ls /usr/local/opt/llvm@14
+    export LLVM_SYS_140_PREFIX="/usr/local/opt/llvm@14/"
     bash build_scripts/build-snowball.sh
 else
 
