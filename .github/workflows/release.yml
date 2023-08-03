@@ -46,4 +46,4 @@ jobs:
       - name: Build in Docker
         run: bash -ex build_scripts/release_build.sh
 
-      - run: ls target
+      - run: ls target/release
