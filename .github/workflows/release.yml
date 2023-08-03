@@ -1,7 +1,5 @@
 name: Build and Release
-on:
-  release:
-    types: [created]
+on: push
 
 
 jobs:
@@ -54,13 +52,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Upload Release Asset
-        if: success()
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./target/release/llvm-rust-test
-          asset_name: build-${{ matrix.NAME }}-${{ matrix.ARCH }}.tar.gz
-          asset_content_type: application/gzip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: ls target
