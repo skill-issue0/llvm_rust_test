@@ -1,5 +1,8 @@
 name: Build and Release
-'on': push
+on:
+  release:
+    types: [created]
+
 
 jobs:
   build:
@@ -44,29 +47,20 @@ jobs:
 
       - name: Build in Docker
         run: bash -ex build_scripts/release_build.sh
-  
-  build-win:
-    runs-on: ${{ matrix.DIST }}
-    strategy:
-      matrix:
-        include:
-          - ARCH: x86_64
-            DIST: windows-latest
 
-    name: 'Build windows (${{ matrix.ARCH }}) [${{ matrix.DIST }}]'
-    env:
-      DIST: '${{ matrix.DIST }}'
-      ARCH: '${{ matrix.ARCH }}'
-      NAME: 'windows'
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
-    steps:
-      - name: Rust Cache
-        uses: Swatinem/rust-cache@v2.3.0
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Build in Docker
-        run: |
-          docker build -t llvm-build -f "containers/windows-latest/Dockerfile.x86_64" .
-          docker run -it --rm -m 8GB --cpus 6 llvm-build
+      - name: Upload Release Asset
+        if: success()
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./target/release/llvm-rust-test
+          asset_name: build-${{ matrix.NAME }}-${{ matrix.ARCH }}.tar.gz
+          asset_content_type: application/gzip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
