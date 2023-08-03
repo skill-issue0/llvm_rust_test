@@ -22,9 +22,6 @@ jobs:
           - ARCH: 'arm64'
             DIST: 'macos-11'
             NAME: 'darwin'
-          - ARCH: 'x86_64'
-            DIST: 'windows-latest'
-            NAME: 'windows'
 
     name: 'Build ${{ matrix.NAME }} (${{ matrix.ARCH }}) [${{ matrix.DIST }}]'
     env:
@@ -47,3 +44,29 @@ jobs:
 
       - name: Build in Docker
         run: bash -ex build_scripts/release_build.sh
+  
+  build-win:
+    runs-on: ${{ matrix.DIST }}
+    strategy:
+      matrix:
+        include:
+          - ARCH: x86_64
+            DIST: windows-latest
+
+    name: 'Build windows (${{ matrix.ARCH }}) [${{ matrix.DIST }}]'
+    env:
+      DIST: '${{ matrix.DIST }}'
+      ARCH: '${{ matrix.ARCH }}'
+      NAME: 'windows'
+
+    steps:
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2.3.0
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build in Docker
+        run: |
+          docker build -t llvm-build -f "containers/windows-latest/Dockerfile.x86_64" .
+          docker run -it --rm -m 8GB --cpus 6 llvm-build
