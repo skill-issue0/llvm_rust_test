@@ -2,7 +2,10 @@ $llvm_version = "16.0.5"
 
 # Check if scoop is installed
 if (!(Get-Command "scoop" -errorAction SilentlyContinue)) {
-    irm get.scoop.sh | iex
+    irm get.scoop.sh -outfile 'install.ps1'
+    .\install.ps1 -RunAsAdmin [-OtherParameters ...]
+    # I don't care about other parameters and want a one-line command
+    iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
 }
 
 if (!(Get-Command "git" -errorAction SilentlyContinue)) {
