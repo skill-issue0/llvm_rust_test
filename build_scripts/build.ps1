@@ -2,7 +2,9 @@ $llvm_version = "16.0.5"
 
 # Check if scoop is installed
 if (!(Get-Command "scoop" -errorAction SilentlyContinue)) {
-    Write-Error "scoop is not installed, get it at: https://https://scoop.sh/"
+    irm get.scoop.sh | iex
+    # You can use proxies if you have network trouble in accessing GitHub, e.g.
+    irm get.scoop.sh -Proxy 'http://<ip:port>' | iex
 }
 
 if (!(Get-Command "git" -errorAction SilentlyContinue)) {
