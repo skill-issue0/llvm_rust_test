@@ -67,9 +67,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install scoop
-        uses: MinoruSekine/setup-scoop@v1
-
       - run: build_scripts/build.ps1
 
     
