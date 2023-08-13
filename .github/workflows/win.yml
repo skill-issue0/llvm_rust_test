@@ -22,6 +22,6 @@ jobs:
       - name: Compile LLVM
         if: steps.cache-llvm.outputs.cache-hit == 'true'
         run: |
-          docker build -t windows-x86_64-release -f ./containers/windows-2022/Dockerfile.x86_64
-          docker run -f ./containers/windows-2022/Dockerfile.x86_64
+          docker build -t my-windows-image -f containers\windows-2022\Dockerfile.x86_64 .
+          docker run -it my-windows-image
 
