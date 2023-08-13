@@ -1,7 +1,6 @@
 name: build GO
 
-on:
-  push:
+on: release
 
 jobs:
   xgo:
