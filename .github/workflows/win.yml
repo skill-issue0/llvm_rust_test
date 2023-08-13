@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Enable Developer Command Prompt
         uses: ilammy/msvc-dev-cmd@cec98b9d092141f74527d0afa6feb2af698cfe89 # v1.12.1
 
@@ -23,5 +23,5 @@ jobs:
         if: steps.cache-llvm.outputs.cache-hit == 'true'
         run: |
           docker build -t windows-x86_64-release ./containers/windows-2022
-          docker run ./containers/windows-2022
+          docker run ./containers/windows-2022.x86_64
 
